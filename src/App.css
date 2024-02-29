@@ -8,7 +8,7 @@
 
 :root {
   --clr-lightest: hsl(0, 0%, 80%);
-  --clr-light: hsl(0, 0%, 86%);
+  --clr-light: hsl(0, 0%, 85%);
   --clr-neutral: hsl(0, 0%, 88%);
   --clr-medium: hsl(180, 0%, 47%);
   --clr-dark: hsl(180, 0%, 47%);
@@ -16,6 +16,12 @@
 
   --clr-font-dark: hsl(0, 0%, 22%);
   --clr-font-darkest: hsl(0, 0%, 10%);
+
+  --rotate-min: 0deg;
+  --rotate-max: 180deg;
+  --rotate: 50;
+  --x: 50;
+  --y: 0;
 }
 
 main {
@@ -24,13 +30,12 @@ main {
   overflow: hidden;
   display: grid;
   place-content: center;
-  background-color: var(--clr-neutral);
+  background-color: var(--clr-dark);
 }
 
 .app-wrapper {
   border-radius: 50px;
-  background: #e0e0e0;
-  box-shadow: 31px 31px 62px #bababa, -31px -31px 62px #ffffff;
+  background: var(--clr-light);
   height: 50svh;
   width: 35svw;
   position: relative;
@@ -42,7 +47,7 @@ main {
 
 header {
   display: flex;
-  flex: 1;
+  flex: 0.25;
   background: var(--clr-font-darkest);
   align-items: center;
   justify-content: center;
@@ -50,7 +55,7 @@ header {
 }
 
 header > * {
-  color: var(--clr-neutral);
+  color: var(--clr-light);
 }
 
 #fileupload-icon {
@@ -63,41 +68,48 @@ header > * {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 2;
-  background-color: var(--clr-neutral);
+  flex: 0.5;
+  background-color: var(--clr-light);
   width: 100%;
 }
 
 .waveform {
-  height: 75%;
+  height: 60%;
   width: 95%;
   border-radius: 39px;
-  background: ;
-  box-shadow: inset 33px 33px 65px #d9d9d9, inset -33px -33px 65px #e7e7e7;
+  background-color: var(--clr-lightest);
+  box-shadow: inset 0px 4px 10px 0px var(--clr-font-dark);
 }
 
 .knob-wrapper {
-  display: flex;
-  justify-content: center;
-  flex: 5;
-  outline: 2px solid black;
+  flex: 2;
   position: relative;
+  overflow-y: clip;
+  padding-inline: 1rem;
+}
+
+#dial-svg {
+  position: absolute;
+  scale: 1.2;
+}
+
+input[type="range"] {
+  /* user-select: all;
+  pointer-events: all; */
+  display: none;
 }
 
 .title-wrapper {
   display: flex;
   align-items: center;
   padding-inline-start: 2rem;
-  flex: 2;
+  flex: 0.5;
   align-content: center;
   gap: 0.5rem;
-}
-
-.frame {
-  height: 25rem;
-  width: 25rem;
-  position: absolute;
-  bottom: 0;
+  background-color: var(--clr-font-darkest);
+  color: var(--clr-light);
+  pointer-events: none !important;
+  user-select: none !important;
 }
 
 .title-logo {

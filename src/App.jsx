@@ -1,8 +1,10 @@
+import { useState } from "react";
 import "./App.css";
-import Frame1 from "./assets/Frame 1.svg";
+import RadialDial from "./RadialDial";
 import { MdOutlineFileUpload } from "react-icons/md";
 
 function App() {
+  const [dialValue, setDialValue] = useState(0);
   return (
     <main>
       <div className="app-wrapper">
@@ -15,7 +17,20 @@ function App() {
           <canvas className="waveform"></canvas>
         </section>
         <section className="knob-wrapper">
-          <img className="frame" src={Frame1} />
+          <RadialDial />
+          <input
+            type="range"
+            name="range"
+            id="hidden-range"
+            min={-100}
+            max={100}
+            step={1}
+            value={dialValue}
+            onChange={(e) => {
+              setDialValue(e.target.value);
+              console.log(dialValue);
+            }}
+          />
         </section>
         <section className="title-wrapper">
           <h1 className="title-logo">HRS</h1>
