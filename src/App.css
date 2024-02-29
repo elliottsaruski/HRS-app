@@ -82,7 +82,7 @@ header > * {
 }
 
 .knob-wrapper {
-  flex: 2;
+  flex: 3;
   position: relative;
   overflow-y: clip;
   padding-inline: 1rem;
