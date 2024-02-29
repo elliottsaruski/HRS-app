@@ -19,7 +19,15 @@ function RadialDial(props) {
   return (
     <svg
       viewBox="0 0 500 500"
-      style={{ scale: "1.1", position: "absolute", bottom: "0", top: "0" }}
+      style={{
+        scale: "1.2",
+        position: "absolute",
+        bottom: "0",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+      }}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}>
