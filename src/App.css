@@ -16,10 +16,10 @@
 
   --clr-font-dark: hsl(0, 0%, 22%);
   --clr-font-darkest: hsl(0, 0%, 10%);
+  --rotate: 0;
 
   --rotate-min: 0deg;
   --rotate-max: 180deg;
-  --rotate: 50;
   --x: 50;
   --y: 0;
 }
@@ -37,12 +37,14 @@ main {
   border-radius: 50px;
   background: var(--clr-light);
   height: 50svh;
-  width: 35svw;
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   min-width: 375px;
+  max-width: 500px;
+  outline: 10px solid var(--clr-light);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.486);
 }
 
 header {
@@ -68,13 +70,12 @@ header > * {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0.5;
+  flex: 2;
   background-color: var(--clr-light);
-  width: 100%;
 }
 
 .waveform {
-  height: 60%;
+  height: 95%;
   width: 95%;
   border-radius: 39px;
   background-color: var(--clr-lightest);
@@ -85,24 +86,36 @@ header > * {
   flex: 3;
   position: relative;
   overflow-y: clip;
-  padding-inline: 1rem;
 }
 
 #dial-svg {
   position: absolute;
 }
 
+/* #dial-svg:not(#knobAninmate) {
+  user-select: none;
+  pointer-events: none;
+} */
+
+#knobAnimate {
+  transform-origin: 50% 50%;
+  rotate: var(--rotate);
+  user-select: all;
+  pointer-events: all;
+}
+
 input[type="range"] {
-  /* user-select: all;
-  pointer-events: all; */
+  user-select: all;
+  pointer-events: all;
   display: none;
 }
 
 .title-wrapper {
+  padding-block: 1rem;
   display: flex;
   align-items: center;
   padding-inline-start: 2rem;
-  flex: 0.5;
+  flex: 0.75;
   align-content: center;
   gap: 0.5rem;
   background-color: var(--clr-font-darkest);

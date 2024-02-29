@@ -1,26 +1,44 @@
+import { useRef } from "react";
+
 function RadialDial(props) {
-  // function handleMouseDown(e) {
-  //   e.preventDefault();
-  //   let x = Math.floor(e.clientX); // Horizontal --max 550 --min 120
-  //   // let y = e.clientY; // Vertical
-  //   let x0 = Math.cos(x) - Math.sin(x); // Horizontal --max 550 --min 120
+  const knobRef = useRef();
 
-  //   document.documentElement.style.setProperty("rotate", x);
-  //   console.log(x0);
-  // }
+  function handleMouseDown(e) {
+    e.preventDefault();
+    handleMouseMove(e);
+  }
 
-  // function handleMouseMove(e) {
-  //   let x = Math.floor(e.clientX);
-  //   console.log(x);
-  //   // let y = e.clientY; // Vertical
-  //   // let x0 = Math.cos(x) - Math.sin(x); // Horizontal --max 550 --min 120
-  // }
+  function handleMouseUp(e) {
+    return e.target.value;
+  }
+
+  function handleMouseMove(e) {
+    const knob = e.target.getBoundingClientRect();
+    const pts = {
+      x0: knob.left + knob.width / 2,
+      y0: knob.top + knob.height / 2,
+    };
+    const x = e.clientX - pts.x0;
+    const y = e.clientY - pts.y0;
+    let deg = (Math.atan(y / x) * 180) / Math.PI;
+    if ((x < 0 && y >= 0) || (x < 0 && y < 0)) {
+      deg += 90;
+    } else {
+      deg += 270;
+    }
+    console.log(deg);
+    document.documentElement.style.setProperty("--rotate", deg + "deg");
+  }
 
   return (
     <svg
+      onMouseDownCapture={(e) => handleMouseDown(e)}
+      onMouseUp={(e) => handleMouseUp(e)}
+      onMouseMove={(e) => handleMouseMove(e)}
+      id="dial-svg"
       viewBox="0 0 500 500"
       style={{
-        scale: "1.2",
+        scale: "1.19",
         position: "absolute",
         bottom: "0",
         top: "0",
@@ -32,7 +50,6 @@ function RadialDial(props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}>
       <g id="Frame 1" clipPath="url(#clip0_8_2)">
-        <rect width={500} height={500} fill="#D9D9D9" />
         <g id="outerRing" filter="url(#filter0_ddiiii_8_2)">
           <circle cx={250} cy={250} r={200} fill="#D1D1D1" />
         </g>
@@ -99,7 +116,7 @@ function RadialDial(props) {
             </tspan>
           </text>
         </g>
-        <g id="knobAnimate">
+        <g id="knobAnimate" ref={knobRef}>
           <g id="knob" filter="url(#filter1_ddddii_8_2)">
             <circle cx={250} cy={250} r={100} fill="url(#paint2_linear_8_2)" />
           </g>
@@ -379,12 +396,11 @@ function RadialDial(props) {
           <stop stopColor="#CCCCCC" />
           <stop offset={1} stopColor="#D8D8D8" />
         </linearGradient>
-        <clipPath id="clip0_8_2">
-          <rect width={500} height={500} fill="white" />
-        </clipPath>
       </defs>
     </svg>
   );
 }
 
 export default RadialDial;
+
+//style={{ rotate: "clamp(-90deg, 0deg, 90deg)" }}

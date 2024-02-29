@@ -4,7 +4,8 @@ import RadialDial from "./RadialDial";
 import { MdOutlineFileUpload } from "react-icons/md";
 
 function App() {
-  const [dialValue, setDialValue] = useState(0);
+  const [dialValue, setDialValue] = useState(50);
+
   return (
     <main>
       <div className="app-wrapper">
