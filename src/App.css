@@ -16,12 +16,6 @@
 
   --clr-font-dark: hsl(0, 0%, 22%);
   --clr-font-darkest: hsl(0, 0%, 10%);
-  --rotate: 0;
-
-  --rotate-min: 0deg;
-  --rotate-max: 180deg;
-  --x: 50;
-  --y: 0;
 }
 
 main {
@@ -30,7 +24,7 @@ main {
   overflow: hidden;
   display: grid;
   place-content: center;
-  background-color: var(--clr-dark);
+  background-color: #e0e0e0;
 }
 
 .app-wrapper {
@@ -40,11 +34,10 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: clip;
   min-width: 375px;
   max-width: 500px;
-  outline: 10px solid var(--clr-light);
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.486);
+  box-shadow: 6px 6px 12px #b5b5b5, -6px -6px 12px #ffffff;
 }
 
 header {
@@ -54,6 +47,7 @@ header {
   align-items: center;
   justify-content: center;
   border-top: none;
+  padding-block: 0.4rem;
 }
 
 header > * {
@@ -70,7 +64,7 @@ header > * {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 2;
+  flex: 1;
   background-color: var(--clr-light);
 }
 
@@ -90,18 +84,20 @@ header > * {
 
 #dial-svg {
   position: absolute;
+  cursor: grab;
+  cursor: -webkit-grab;
 }
 
-/* #dial-svg:not(#knobAninmate) {
+#dial-svg:not(#knobAninmate) {
   user-select: none;
-  pointer-events: none;
-} */
+}
 
 #knobAnimate {
   transform-origin: 50% 50%;
-  rotate: var(--rotate);
   user-select: all;
   pointer-events: all;
+  cursor: grab;
+  cursor: -webkit-grab;
 }
 
 input[type="range"] {
@@ -115,7 +111,7 @@ input[type="range"] {
   display: flex;
   align-items: center;
   padding-inline-start: 2rem;
-  flex: 0.75;
+  flex: 0.5;
   align-content: center;
   gap: 0.5rem;
   background-color: var(--clr-font-darkest);

@@ -1,44 +1,57 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function RadialDial(props) {
   const knobRef = useRef();
+  const fullKnobRef = useRef();
 
-  function handleMouseDown(e) {
-    e.preventDefault();
-    handleMouseMove(e);
-  }
+  const maxRotateDeg = "90";
+  const minRotateDeg = "-90";
 
-  function handleMouseUp(e) {
-    return e.target.value;
-  }
+  const [rotateValue, setRotateValue] = useState("0");
+  const [isDown, setIsDown] = useState(false);
 
-  function handleMouseMove(e) {
-    const knob = e.target.getBoundingClientRect();
-    const pts = {
-      x0: knob.left + knob.width / 2,
-      y0: knob.top + knob.height / 2,
-    };
-    const x = e.clientX - pts.x0;
-    const y = e.clientY - pts.y0;
-    let deg = (Math.atan(y / x) * 180) / Math.PI;
-    if ((x < 0 && y >= 0) || (x < 0 && y < 0)) {
-      deg += 90;
-    } else {
-      deg += 270;
+  function handleClick(e) {
+    if (e.type === "pointerdown") {
+      knobRef.current.style.cursor = "grabbing";
+      fullKnobRef.current.style.cursor = "grabbing";
+
+      setIsDown(true);
+    } else if (e.type === "pointerup") {
+      knobRef.current.style.cursor = "grab";
+      fullKnobRef.current.style.cursor = "grab";
+
+      setIsDown(false);
     }
-    console.log(deg);
-    document.documentElement.style.setProperty("--rotate", deg + "deg");
+  }
+
+  function handleMove(e) {
+    if (isDown) {
+      const { clientY } = e;
+      const normalizedY = (clientY / window.innerHeight) * 180 - 90;
+      const clampedY = Math.max(
+        minRotateDeg,
+        Math.min(maxRotateDeg, normalizedY)
+      );
+      setRotateValue(clampedY);
+    }
   }
 
   return (
     <svg
-      onMouseDownCapture={(e) => handleMouseDown(e)}
-      onMouseUp={(e) => handleMouseUp(e)}
-      onMouseMove={(e) => handleMouseMove(e)}
+      ref={fullKnobRef}
+      onPointerDown={(e) => {
+        handleClick(e);
+      }}
+      onPointerUp={(e) => {
+        handleClick(e);
+      }}
+      onPointerMove={(e) => {
+        handleMove(e);
+      }}
       id="dial-svg"
       viewBox="0 0 500 500"
       style={{
-        scale: "1.19",
+        scale: "1.1",
         position: "absolute",
         bottom: "0",
         top: "0",
@@ -116,7 +129,12 @@ function RadialDial(props) {
             </tspan>
           </text>
         </g>
-        <g id="knobAnimate" ref={knobRef}>
+        <g
+          id="knobAnimate"
+          ref={knobRef}
+          style={{
+            rotate: `${rotateValue}` + "deg",
+          }}>
           <g id="knob" filter="url(#filter1_ddddii_8_2)">
             <circle cx={250} cy={250} r={100} fill="url(#paint2_linear_8_2)" />
           </g>
