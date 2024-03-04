@@ -52,6 +52,10 @@ header {
 
 header > * {
   color: var(--clr-light);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #fileupload-icon {
@@ -62,19 +66,45 @@ header > * {
 .waveform-wrapper {
   height: 8rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  flex: 1.3;
   background-color: var(--clr-light);
+  overflow: hidden;
 }
 
 .waveform {
   height: 95%;
   width: 95%;
+  padding-inline: .25rem;
+  overflow: hidden;
   border-radius: 39px;
-  background-color: var(--clr-lightest);
+  background-color: var(--clr-light);
   box-shadow: inset 0px 4px 10px 0px var(--clr-font-dark);
 }
+.controls-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  user-select: none;
+}
+
+#play-pause-btn {
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  flex: 1;
+}
+
+.current-time{
+  flex: 1;
+}
+
+#bypass-btn {
+  flex: .5;
+}
+
 
 .knob-wrapper {
   flex: 3;
@@ -101,6 +131,7 @@ header > * {
 }
 
 input[type="range"] {
+  position: absolute;
   user-select: all;
   pointer-events: all;
   display: none;
