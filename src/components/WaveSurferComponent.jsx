@@ -1,14 +1,18 @@
 import { useRef, useState } from "react";
 import { useWavesurfer } from "@wavesurfer/react";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { FaPlay } from "react-icons/fa";
+import { FaPowerOff } from "react-icons/fa6";
+
 import RadialDial from "./RadialDial";
 
 function WaveSurferComponent() {
   const waveSurferRef = useRef();
   const inputRef = useRef();
 
-  const [rateValue, setRateValue] = useState(undefined);
+  const [rateValue, setRateValue] = useState(1);
   const [bypass, setBypass] = useState(false);
+
 
   const handleUpload = (e) => {
     e.preventDefault();
@@ -24,6 +28,7 @@ function WaveSurferComponent() {
 
       // Load the blob into Wavesurfer
       wavesurfer.loadBlob(blob);
+      setRateValue(1);
 
       // console.log(wavesurfer);
     };
@@ -35,8 +40,8 @@ function WaveSurferComponent() {
   const { wavesurfer, isPlaying } = useWavesurfer({
     container: waveSurferRef,
     height: "auto",
-    waveColor: "rgb(0, 0, 0)",
-    progressColor: "rgb(0, 0, 100)",
+    waveColor: "hsl(0, 0%, 88%)",
+    progressColor: "hsl(196, 99%, 49%)",
     barHeight: ".5",
     cursorWidth: "2",
   });
@@ -50,43 +55,57 @@ function WaveSurferComponent() {
   };
 
   const handleBypass = () => {
-    setBypass(!bypass);
+    setBypass((prev) => !prev);
     bypass
-      ? wavesurfer.setPlaybackRate(1, false)
-      : wavesurfer.setPlaybackRate(rateValue, false);
+      ? wavesurfer.setPlaybackRate(rateValue, false)
+      : wavesurfer.setPlaybackRate(1, false);
   };
 
   return (
     <>
-      <header className="header-wrapper">
-        <a href="">
+      <section className="header-wrapper">
+        <input
+          type="file"
+          id="file-input"
+          name="file"
+          accept=".mp3,.wav"
+          ref={inputRef}
+          onChange={(e) => handleUpload(e)}
+        />
+        <label
+          htmlFor="file"
+          onClick={() => {
+            inputRef.current.click();
+          }}>
           <MdOutlineFileUpload id="fileupload-icon" />
-          <input
-            type="file"
-            accept=".mp3,.wav"
-            ref={inputRef}
-            onChange={(e) => handleUpload(e)}
-          />
-        </a>
-      </header>
+        </label>
+      </section>
       <section className="waveform-wrapper">
-        <div className="waveform" ref={waveSurferRef}></div>
+        <div
+          className="waveform"
+          aria-label="waveform"
+          ref={waveSurferRef}></div>
       </section>
-      <section className="controls-wrapper">
-        <button id="play-pause-btn" onClick={onPlayPause}>
-          {isPlaying ? "Pause" : "Play"}
-        </button>
-        <button id="bypass-btn" onClick={handleBypass}>
-          bypass
-        </button>
-      </section>
-      {rateValue}
       <section
         className="knob-wrapper"
         onPointerDown={handlePlaybackRate}
         onPointerUp={handlePlaybackRate}>
         <RadialDial setRateValue={setRateValue} />
       </section>
+      <button
+        id="play-pause-btn"
+        aria-label="play-pause-button"
+        className={isPlaying ? "playing-on" : "playing-off"}
+        onClick={onPlayPause}>
+        <FaPlay />
+      </button>
+      <button
+        id="bypass-btn"
+        aria-label="bypass-button"
+        className={bypass ? "bypass-on" : "bypass-off"}
+        onClick={handleBypass}>
+        <FaPowerOff />
+      </button>
     </>
   );
 }

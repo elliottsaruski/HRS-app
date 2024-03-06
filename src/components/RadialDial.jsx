@@ -8,7 +8,7 @@ function RadialDial({ setRateValue }) {
   const maxRotateDeg = "90";
   const minRotateDeg = "-90";
 
-  const [rotateValue, setRotateValue] = useState("0");
+  const [rotateValue, setRotateValue] = useState(0);
   const [isDown, setIsDown] = useState(false);
 
   const [dialValue, setDialValue] = useState(0);
@@ -25,6 +25,7 @@ function RadialDial({ setRateValue }) {
       document.body.style.cursor = "grab";
       setIsDown(false);
     }
+    
   }
 
   function handleMove(e) {
@@ -464,7 +465,3 @@ export default RadialDial;
 //TODO: create bypass functionality that sets audiorate back to default momentarily
 //TODO: prettify the UI
 //Extra work: add settings button for menu to pop up and allow user customization of the waveform colors, dark mode/light mode, + potential extra functionalities
-
-//wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate(), preservePitch)
-
-//  wavesurfer.setPlaybackRate(speed, preservePitch: true)

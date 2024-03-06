@@ -29,33 +29,46 @@ main {
 
 .app-wrapper {
   border-radius: 50px;
-  background: var(--clr-light);
-  height: 50svh;
+  height: 700px;
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: clip;
   min-width: 375px;
-  max-width: 500px;
-  box-shadow: 6px 6px 12px #b5b5b5, -6px -6px 12px #ffffff;
+  max-width: 450px;
 }
 
-header {
+.header-wrapper {
   display: flex;
   flex: 0.25;
-  background: var(--clr-font-darkest);
-  align-items: center;
-  justify-content: center;
-  border-top: none;
-  padding-block: 0.4rem;
+  background-color: var(--clr-font-darkest);
+  color: var(--clr-light);
+  border: none;
 }
 
-header > * {
-  color: var(--clr-light);
-  width: 100%;
+input[type="file"] {
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+input[type="file"] + label {
+  font-weight: 700;
   display: flex;
+  padding: 0.25rem;
+  width: 100%;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
+}
+
+input[type="file"]:focus + label,
+input[type="file"] + label:hover {
+  background-color: var(--clr-accent);
+  color: var(--clr-font-darkest);
 }
 
 #fileupload-icon {
@@ -69,53 +82,91 @@ header > * {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1.3;
-  background-color: var(--clr-light);
+  flex: 1;
   overflow: hidden;
+  background-color: var(--clr-font-dark);
+  padding-block: 1rem;
 }
 
 .waveform {
-  height: 95%;
-  width: 95%;
-  padding-inline: .25rem;
+  height: 100%;
+  width: 90%;
   overflow: hidden;
   border-radius: 39px;
-  background-color: var(--clr-light);
-  box-shadow: inset 0px 4px 10px 0px var(--clr-font-dark);
-}
-.controls-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  user-select: none;
+  background-color: var(--clr-font-darkest);
 }
 
 #play-pause-btn {
-  padding-inline: 1rem;
-  padding-block: 0.5rem;
-  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  aspect-ratio: 1;
+  border-radius: 10rem;
+  background: linear-gradient(145deg, #f0f0f0, #cacaca);
+  border: none;
+  position: absolute;
+  top: 13rem;
+  left: 1rem;
+  z-index: 20;
 }
 
-.current-time{
-  flex: 1;
+.playing-on {
+  background-color: var(--clr-font-dark);
+  color: var(--clr-accent);
+  outline: 2px solid hsla(196, 99%, 49%, 0.199);
+  outline-offset: 0.1rem;
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  box-shadow: inset 5px 5px 10px #d0d0d0, inset -5px -5px 10px #f0f0f0;
+}
+
+.playing-off {
+  background-color: var(--clr-light);
+  color: var(--clr-darkest);
+  outline: 2px solid hsla(0, 0%, 49%, 0.082);
+  outline-offset: 0.1rem;
+  box-shadow: 6px 6px 12px #c1c1c1, -6px -6px 12px #ffffff;
 }
 
 #bypass-btn {
-  flex: .5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 10rem;
+  border: none;
+  position: absolute;
+  right: 2rem;
+  top: 14rem;
+  z-index: 20;
 }
 
+.bypass-on {
+  background-color: var(--clr-font-dark);
+  color: rgba(255, 0, 0, 0.349);
+  outline: 1px solid rgba(255, 0, 0, 0.349);
+  outline-offset: 0.1rem;
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  box-shadow: inset 5px 5px 10px #d0d0d0, inset -5px -5px 10px #f0f0f0;
+}
+.bypass-off {
+  background-color: var(--clr-light);
+  color: rgb(41, 41, 41);
+  outline: 1px solid hsla(0, 0%, 57%, 0.199);
+  outline-offset: 0.1rem;
+  box-shadow: 6px 6px 12px #c1c1c1, -6px -6px 12px #ffffff;
+}
 
 .knob-wrapper {
-  flex: 3;
+  flex: 3.5;
   position: relative;
-  overflow-y: clip;
 }
 
 #dial-svg {
-  position: absolute;
   cursor: grab;
   cursor: -webkit-grab;
+  /* backdrop-filter: blur(1px) !important; */
 }
 
 #dial-svg:not(#knobAninmate) {
