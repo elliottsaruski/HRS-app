@@ -17,15 +17,12 @@ function RadialDial({ setRateValue }) {
     if (e.type === "pointerdown") {
       knobRef.current.style.cursor = "grabbing";
       fullKnobRef.current.style.cursor = "grabbing";
-      document.body.style.cursor = "grabbing";
       setIsDown(true);
     } else if (e.type === "pointerup") {
       knobRef.current.style.cursor = "grab";
       fullKnobRef.current.style.cursor = "grab";
-      document.body.style.cursor = "grab";
       setIsDown(false);
     }
-    
   }
 
   function handleMove(e) {
@@ -40,8 +37,16 @@ function RadialDial({ setRateValue }) {
       const inputMap = (value, x1, y1, x2, y2) =>
         ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
       setDialValue(inputMap(clampedY, -90, 90, 0.5, 1.5));
+      setRateValue(dialValue);
+    } else {
+      setRateValue(dialValue);
     }
-    setRateValue(dialValue);
+  }
+
+  function handleMoveOut() {
+    knobRef.current.style.cursor = "grab";
+    fullKnobRef.current.style.cursor = "grab";
+    setIsDown(false);
   }
 
   return (
@@ -57,9 +62,7 @@ function RadialDial({ setRateValue }) {
         onPointerMove={(e) => {
           handleMove(e);
         }}
-        onPointerLeave={(e) => {
-          handleMove(e);
-        }}
+        onPointerLeave={handleMoveOut}
         id="dial-svg"
         viewBox="0 0 500 500"
         style={{
@@ -75,16 +78,16 @@ function RadialDial({ setRateValue }) {
         xmlns="http://www.w3.org/2000/svg">
         <g id="Frame 1" clipPath="url(#clip0_8_2)">
           <g id="outerRing" filter="url(#filter0_ddiiii_8_2)">
-            <circle cx={250} cy={250} r={200} fill="#D1D1D1" />
+            <circle cx={250} cy={250} r={150} fill="#D1D1D1" />
           </g>
-          <circle
+          {/* <circle
             id="valueBar"
             cx={250}
             cy={250}
             r={153}
             stroke="url(#paint0_linear_8_2)"
             strokeWidth={5}
-          />
+          /> */}
           <g id="knotchBar">
             <circle
               id="knotches"

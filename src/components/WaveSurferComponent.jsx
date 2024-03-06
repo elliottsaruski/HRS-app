@@ -13,7 +13,6 @@ function WaveSurferComponent() {
   const [rateValue, setRateValue] = useState(1);
   const [bypass, setBypass] = useState(false);
 
-
   const handleUpload = (e) => {
     e.preventDefault();
     const file = inputRef.current.files[0];
@@ -28,9 +27,6 @@ function WaveSurferComponent() {
 
       // Load the blob into Wavesurfer
       wavesurfer.loadBlob(blob);
-      setRateValue(1);
-
-      // console.log(wavesurfer);
     };
 
     // Read File as an ArrayBuffer
@@ -51,14 +47,23 @@ function WaveSurferComponent() {
   };
 
   const handlePlaybackRate = () => {
+    setRateValue(rateValue);
     wavesurfer.setPlaybackRate(rateValue, false);
   };
 
   const handleBypass = () => {
-    setBypass((prev) => !prev);
-    bypass
-      ? wavesurfer.setPlaybackRate(rateValue, false)
-      : wavesurfer.setPlaybackRate(1, false);
+    if (isPlaying) {
+      if (rateValue === 1) {
+        return;
+      } else {
+        setBypass(!bypass);
+        bypass
+          ? wavesurfer.setPlaybackRate(rateValue, false)
+          : wavesurfer.setPlaybackRate(1, false);
+      }
+    } else {
+      return;
+    }
   };
 
   return (
@@ -86,11 +91,12 @@ function WaveSurferComponent() {
           aria-label="waveform"
           ref={waveSurferRef}></div>
       </section>
+      <hr></hr>
       <section
         className="knob-wrapper"
         onPointerDown={handlePlaybackRate}
         onPointerUp={handlePlaybackRate}>
-        <RadialDial setRateValue={setRateValue} />
+        <RadialDial rateValue={rateValue} setRateValue={setRateValue} />
       </section>
       <button
         id="play-pause-btn"
@@ -98,6 +104,7 @@ function WaveSurferComponent() {
         className={isPlaying ? "playing-on" : "playing-off"}
         onClick={onPlayPause}>
         <FaPlay />
+        <span className="tooltip">{isPlaying ? "pause" : "play"}</span>
       </button>
       <button
         id="bypass-btn"
@@ -105,6 +112,7 @@ function WaveSurferComponent() {
         className={bypass ? "bypass-on" : "bypass-off"}
         onClick={handleBypass}>
         <FaPowerOff />
+        <span className="tooltip">bypass</span>
       </button>
     </>
   );

@@ -9,13 +9,10 @@
 :root {
   --clr-lightest: hsl(0, 0%, 80%);
   --clr-light: hsl(0, 0%, 85%);
-  --clr-neutral: hsl(0, 0%, 88%);
-  --clr-medium: hsl(180, 0%, 47%);
-  --clr-dark: hsl(180, 0%, 47%);
+  --clr-medium: hsl(0, 0%, 65%);
+  --clr-dark: hsl(0, 0%, 22%);
+  --clr-darkest: hsl(0, 0%, 10%);
   --clr-accent: hsl(196, 99%, 49%);
-
-  --clr-font-dark: hsl(0, 0%, 22%);
-  --clr-font-darkest: hsl(0, 0%, 10%);
 }
 
 main {
@@ -24,7 +21,7 @@ main {
   overflow: hidden;
   display: grid;
   place-content: center;
-  background-color: #e0e0e0;
+  background: radial-gradient(var(--clr-medium), var(--clr-lightest));
 }
 
 .app-wrapper {
@@ -33,15 +30,42 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
+
   overflow: clip;
   min-width: 375px;
   max-width: 450px;
+  background: var(--clr-light);
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  width: 5rem;
+  background-color: var(--clr-darkest);
+  color: var(--clr-accent);
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border-radius: 10rem;
+}
+
+#bypass-btn:hover .tooltip,
+#bypass-btn:active .tooltip {
+  visibility: visible;
+  top: 0;
+  right: 3.5rem;
+}
+
+#play-pause-btn:hover .tooltip,
+#play-pause-btn:active .tooltip {
+  visibility: visible;
+  top: 0;
+  left: 3.5rem;
 }
 
 .header-wrapper {
   display: flex;
   flex: 0.25;
-  background-color: var(--clr-font-darkest);
+  background-color: var(--clr-darkest);
   color: var(--clr-light);
   border: none;
 }
@@ -68,7 +92,7 @@ input[type="file"] + label {
 input[type="file"]:focus + label,
 input[type="file"] + label:hover {
   background-color: var(--clr-accent);
-  color: var(--clr-font-darkest);
+  color: var(--clr-darkest);
 }
 
 #fileupload-icon {
@@ -77,23 +101,26 @@ input[type="file"] + label:hover {
 }
 
 .waveform-wrapper {
-  height: 8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  flex: 0.5;
   overflow: hidden;
-  background-color: var(--clr-font-dark);
+  background: var(--clr-light);
   padding-block: 1rem;
+  backdrop-filter: blur(20px);
+  -webkit-box-shadow: 1px 1px 0px #cfcfcf, -1px -1px 0px #d3d3d3;
+  box-shadow: 1px 1px 0px #cfcfcf, -1px -1px 0px #d3d3d3;
 }
 
 .waveform {
   height: 100%;
-  width: 90%;
+  width: 95%;
   overflow: hidden;
   border-radius: 39px;
-  background-color: var(--clr-font-darkest);
+  background-color: var(--clr-dark);
+  box-shadow: 8px 8px 16px #cccccc, -8px -8px 16px #f4f4f4;
 }
 
 #play-pause-btn {
@@ -106,13 +133,13 @@ input[type="file"] + label:hover {
   background: linear-gradient(145deg, #f0f0f0, #cacaca);
   border: none;
   position: absolute;
-  top: 13rem;
-  left: 1rem;
+  top: 15rem;
+  left: 2rem;
   z-index: 20;
 }
 
 .playing-on {
-  background-color: var(--clr-font-dark);
+  background-color: var(--clr-dark);
   color: var(--clr-accent);
   outline: 2px solid hsla(196, 99%, 49%, 0.199);
   outline-offset: 0.1rem;
@@ -132,18 +159,19 @@ input[type="file"] + label:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 1.5rem;
+  width: 3rem;
   aspect-ratio: 1;
   border-radius: 10rem;
+  background: linear-gradient(145deg, #f0f0f0, #cacaca);
   border: none;
   position: absolute;
   right: 2rem;
-  top: 14rem;
+  top: 15rem;
   z-index: 20;
 }
 
 .bypass-on {
-  background-color: var(--clr-font-dark);
+  background-color: var(--clr-dark);
   color: rgba(255, 0, 0, 0.349);
   outline: 1px solid rgba(255, 0, 0, 0.349);
   outline-offset: 0.1rem;
@@ -159,8 +187,10 @@ input[type="file"] + label:hover {
 }
 
 .knob-wrapper {
-  flex: 3.5;
+  flex: 1.5;
   position: relative;
+  -webkit-box-shadow: 1px 1px 0px #cfcfcf, -1px -1px 0px #d3d3d3;
+  box-shadow: 1px 1px 0px #cfcfcf, -1px -1px 0px #d3d3d3;
 }
 
 #dial-svg {
@@ -193,11 +223,11 @@ input[type="range"] {
   display: flex;
   align-items: center;
   padding-inline-start: 2rem;
-  flex: 0.5;
+  flex: 0.25;
   align-content: center;
   gap: 0.5rem;
-  background-color: var(--clr-font-darkest);
-  color: var(--clr-light);
+  background-color: var(--clr-darkest);
+  color: var(--clr-lightest);
   pointer-events: none !important;
   user-select: none !important;
 }
@@ -208,4 +238,16 @@ input[type="range"] {
 
 .title-about {
   font-size: 12px;
+  color: var(--clr-accent);
+}
+
+#info-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  position: absolute;
+  right: 2.5rem;
+}
+
+.title-wrapper span {
+  visibility: hidden;
 }
