@@ -65,29 +65,13 @@ function RadialDial({ setRateValue }) {
         onPointerLeave={handleMoveOut}
         id="dial-svg"
         viewBox="0 0 500 500"
-        style={{
-          scale: "1.1",
-          position: "absolute",
-          bottom: "0",
-          top: "0",
-          left: "0",
-          width: "100%",
-          height: "100%",
-        }}
         fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <g id="Frame 1" clipPath="url(#clip0_8_2)">
           <g id="outerRing" filter="url(#filter0_ddiiii_8_2)">
             <circle cx={250} cy={250} r={150} fill="#D1D1D1" />
           </g>
-          {/* <circle
-            id="valueBar"
-            cx={250}
-            cy={250}
-            r={153}
-            stroke="url(#paint0_linear_8_2)"
-            strokeWidth={5}
-          /> */}
+
           <g id="knotchBar">
             <circle
               id="knotches"
@@ -236,12 +220,7 @@ function RadialDial({ setRateValue }) {
               in2="shape"
               result="effect3_innerShadow_8_2"
             />
-            <feColorMatrix
-              in="SourceAlpha"
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-              result="hardAlpha"
-            />
+
             <feOffset dx={-9} dy={-9} />
             <feGaussianBlur stdDeviation={9} />
             <feComposite in2="hardAlpha" operator="arithmetic" k2={-1} k3={1} />
@@ -278,7 +257,6 @@ function RadialDial({ setRateValue }) {
               values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
               result="hardAlpha"
             />
-            <feOffset dx={-9} dy={9} />
             <feGaussianBlur stdDeviation={9} />
             <feComposite in2="hardAlpha" operator="arithmetic" k2={-1} k3={1} />
             <feColorMatrix
@@ -444,6 +422,7 @@ function RadialDial({ setRateValue }) {
         </defs>
       </svg>
       <input
+        aria-hidden="true"
         type="range"
         name="range"
         id="hidden-range"

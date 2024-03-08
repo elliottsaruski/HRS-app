@@ -30,7 +30,6 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
-
   overflow: clip;
   min-width: 375px;
   max-width: 450px;
@@ -44,8 +43,8 @@ main {
   background-color: var(--clr-darkest);
   color: var(--clr-accent);
   text-align: center;
-  padding: 0.5rem 1rem;
-  border-radius: 10rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
 }
 
 #bypass-btn:hover .tooltip,
@@ -122,6 +121,9 @@ input[type="file"] + label:hover {
   background-color: var(--clr-dark);
   box-shadow: 8px 8px 16px #cccccc, -8px -8px 16px #f4f4f4;
 }
+.waveform:focus {
+  outline: 1px solid var(--clr-accent);
+}
 
 #play-pause-btn {
   display: flex;
@@ -136,6 +138,12 @@ input[type="file"] + label:hover {
   top: 15rem;
   left: 2rem;
   z-index: 20;
+}
+#play-pause-btn:focus,
+#bypass-btn:focus,
+.knob-wrapper:focus,
+.info-icon:focus {
+  outline: 0.1rem solid var(--clr-accent);
 }
 
 .playing-on {
@@ -194,9 +202,7 @@ input[type="file"] + label:hover {
 }
 
 #dial-svg {
-  cursor: grab;
-  cursor: -webkit-grab;
-  /* backdrop-filter: blur(1px) !important; */
+  scale: 1.2;
 }
 
 #dial-svg:not(#knobAninmate) {
@@ -212,9 +218,9 @@ input[type="file"] + label:hover {
 }
 
 input[type="range"] {
-  position: absolute;
-  user-select: all;
-  pointer-events: all;
+  /* position: absolute; */
+  /* user-select: all;
+  pointer-events: all; */
   display: none;
 }
 
@@ -222,14 +228,19 @@ input[type="range"] {
   padding-block: 1rem;
   display: flex;
   align-items: center;
-  padding-inline-start: 2rem;
+  padding-inline: 2rem;
   flex: 0.25;
   align-content: center;
   gap: 0.5rem;
   background-color: var(--clr-darkest);
   color: var(--clr-lightest);
-  pointer-events: none !important;
+  /* pointer-events: none !important; */
   user-select: none !important;
+  z-index: 100;
+}
+
+.title-wrapper strong {
+  color: var(--clr-accent);
 }
 
 .title-logo {
@@ -237,17 +248,37 @@ input[type="range"] {
 }
 
 .title-about {
-  font-size: 12px;
-  color: var(--clr-accent);
+  font-size: 14px;
 }
 
-#info-icon {
-  height: 1.5rem;
-  width: 1.5rem;
+.tooltip-wrapper {
+  display: flex;
+  align-items: center;
   position: absolute;
   right: 2.5rem;
 }
 
-.title-wrapper span {
+.info-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin: 0 auto;
+}
+
+.tooltip-wrapper .tooltip {
   visibility: hidden;
+}
+
+.info-icon:hover + .tooltip {
+  visibility: visible;
+  background-color: var(--clr-darkest);
+  color: var(--clr-accent);
+  z-index: 100;
+  bottom: 4rem;
+  padding-inline: 1rem;
+  position: absolute;
+  margin: 0 auto;
+  right: 0;
+  width: 10rem;
+  list-style: none !important;
+  text-align: left;
 }

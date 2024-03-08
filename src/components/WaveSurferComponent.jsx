@@ -12,12 +12,11 @@ function WaveSurferComponent() {
 
   const [rateValue, setRateValue] = useState(1);
   const [bypass, setBypass] = useState(false);
+  const reader = new FileReader();
 
   const handleUpload = (e) => {
     e.preventDefault();
     const file = inputRef.current.files[0];
-
-    const reader = new FileReader();
 
     reader.onload = function (evt) {
       // Create a Blob providing as first argument a typed array with the file buffer
@@ -31,6 +30,10 @@ function WaveSurferComponent() {
 
     // Read File as an ArrayBuffer
     reader.readAsArrayBuffer(file);
+
+    // reader.onloadend = () => {
+    //   reader.abort(); // Abort the ongoing read operation
+    // };
   };
 
   const { wavesurfer, isPlaying } = useWavesurfer({
@@ -40,6 +43,7 @@ function WaveSurferComponent() {
     progressColor: "hsl(196, 99%, 49%)",
     barHeight: ".5",
     cursorWidth: "2",
+    // audioRate: "1",
   });
 
   const onPlayPause = () => {
@@ -52,15 +56,12 @@ function WaveSurferComponent() {
   };
 
   const handleBypass = () => {
-    if (isPlaying) {
-      if (rateValue === 1) {
-        return;
-      } else {
-        setBypass(!bypass);
-        bypass
-          ? wavesurfer.setPlaybackRate(rateValue, false)
-          : wavesurfer.setPlaybackRate(1, false);
-      }
+    const pbrate = wavesurfer.getPlaybackRate();
+    if (pbrate !== rateValue) {
+      setBypass(!bypass);
+      bypass
+        ? wavesurfer.setPlaybackRate(rateValue, false)
+        : wavesurfer.setPlaybackRate(1, false);
     } else {
       return;
     }
@@ -70,14 +71,16 @@ function WaveSurferComponent() {
     <>
       <section className="header-wrapper">
         <input
+          aria-label="Upload Audio"
           type="file"
-          id="file-input"
+          id="file"
           name="file"
           accept=".mp3,.wav"
           ref={inputRef}
           onChange={(e) => handleUpload(e)}
         />
         <label
+          id="file-label"
           htmlFor="file"
           onClick={() => {
             inputRef.current.click();
@@ -87,18 +90,14 @@ function WaveSurferComponent() {
       </section>
       <section className="waveform-wrapper">
         <div
+          tabIndex={0}
           className="waveform"
           aria-label="waveform"
           ref={waveSurferRef}></div>
       </section>
       <hr></hr>
-      <section
-        className="knob-wrapper"
-        onPointerDown={handlePlaybackRate}
-        onPointerUp={handlePlaybackRate}>
-        <RadialDial rateValue={rateValue} setRateValue={setRateValue} />
-      </section>
       <button
+        tabIndex={0}
         id="play-pause-btn"
         aria-label="play-pause-button"
         className={isPlaying ? "playing-on" : "playing-off"}
@@ -107,6 +106,7 @@ function WaveSurferComponent() {
         <span className="tooltip">{isPlaying ? "pause" : "play"}</span>
       </button>
       <button
+        tabIndex={0}
         id="bypass-btn"
         aria-label="bypass-button"
         className={bypass ? "bypass-on" : "bypass-off"}
@@ -114,6 +114,13 @@ function WaveSurferComponent() {
         <FaPowerOff />
         <span className="tooltip">bypass</span>
       </button>
+      <section
+        tabIndex={0}
+        className="knob-wrapper"
+        onPointerDown={handlePlaybackRate}
+        onPointerUp={handlePlaybackRate}>
+        <RadialDial setRateValue={setRateValue} />
+      </section>
     </>
   );
 }
