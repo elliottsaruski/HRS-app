@@ -121,9 +121,9 @@ input[type="file"] + label:hover {
   background-color: var(--clr-dark);
   box-shadow: 8px 8px 16px #cccccc, -8px -8px 16px #f4f4f4;
 }
-.waveform:focus {
+/* .waveform:focus {
   outline: 1px solid var(--clr-accent);
-}
+} */
 
 #play-pause-btn {
   display: flex;
@@ -139,12 +139,12 @@ input[type="file"] + label:hover {
   left: 2rem;
   z-index: 20;
 }
-#play-pause-btn:focus,
+/* #play-pause-btn:focus,
 #bypass-btn:focus,
 .knob-wrapper:focus,
 .info-icon:focus {
   outline: 0.1rem solid var(--clr-accent);
-}
+} */
 
 .playing-on {
   background-color: var(--clr-dark);
@@ -197,8 +197,6 @@ input[type="file"] + label:hover {
 .knob-wrapper {
   flex: 1.5;
   position: relative;
-  -webkit-box-shadow: 1px 1px 0px #cfcfcf, -1px -1px 0px #d3d3d3;
-  box-shadow: 1px 1px 0px #cfcfcf, -1px -1px 0px #d3d3d3;
 }
 
 #dial-svg {
@@ -212,7 +210,7 @@ input[type="file"] + label:hover {
 #knobAnimate {
   transform-origin: 50% 50%;
   user-select: all;
-  pointer-events: all;
+ 
   cursor: grab;
   cursor: -webkit-grab;
 }

@@ -12,28 +12,28 @@ function WaveSurferComponent() {
 
   const [rateValue, setRateValue] = useState(1);
   const [bypass, setBypass] = useState(false);
-  const reader = new FileReader();
+  // const [soundFile, setSoundFile] = useState({});
 
   const handleUpload = (e) => {
     e.preventDefault();
+    e.stopPropagation();
+    // setRateValue(1);
     const file = inputRef.current.files[0];
 
-    reader.onload = function (evt) {
+    const reader = new FileReader();
+
+    // Read File as an ArrayBuffer
+
+    reader.onload = async function (evt) {
       // Create a Blob providing as first argument a typed array with the file buffer
       let blob = new window.Blob([new Uint8Array(evt.target.result)], {
-        type: "audio/wav",
+        type: "audio/mp3",
       });
 
       // Load the blob into Wavesurfer
-      wavesurfer.loadBlob(blob);
+      await wavesurfer.loadBlob(blob);
     };
-
-    // Read File as an ArrayBuffer
     reader.readAsArrayBuffer(file);
-
-    // reader.onloadend = () => {
-    //   reader.abort(); // Abort the ongoing read operation
-    // };
   };
 
   const { wavesurfer, isPlaying } = useWavesurfer({
@@ -41,9 +41,12 @@ function WaveSurferComponent() {
     height: "auto",
     waveColor: "hsl(0, 0%, 88%)",
     progressColor: "hsl(196, 99%, 49%)",
-    barHeight: ".5",
-    cursorWidth: "2",
-    // audioRate: "1",
+    barHeight: ".8",
+    barWidth: 3,
+    cursorWidth: "3",
+    barGap: 1,
+    dragToSeek: true,
+    audioRate: 1,
   });
 
   const onPlayPause = () => {
@@ -51,17 +54,19 @@ function WaveSurferComponent() {
   };
 
   const handlePlaybackRate = () => {
-    setRateValue(rateValue);
-    wavesurfer.setPlaybackRate(rateValue, false);
+    if (bypass === false) {
+      setRateValue(rateValue);
+      wavesurfer.setPlaybackRate(rateValue, false);
+    }
   };
 
   const handleBypass = () => {
     const pbrate = wavesurfer.getPlaybackRate();
-    if (pbrate !== rateValue) {
+    if (pbrate !== 1 && isPlaying) {
       setBypass(!bypass);
       bypass
         ? wavesurfer.setPlaybackRate(rateValue, false)
-        : wavesurfer.setPlaybackRate(1, false);
+        : wavesurfer.setPlaybackRate(1.000001, false);
     } else {
       return;
     }
@@ -79,13 +84,13 @@ function WaveSurferComponent() {
           ref={inputRef}
           onChange={(e) => handleUpload(e)}
         />
-        <label
-          id="file-label"
-          htmlFor="file"
-          onClick={() => {
-            inputRef.current.click();
-          }}>
-          <MdOutlineFileUpload id="fileupload-icon" />
+        <label id="file-label" htmlFor="file">
+          <MdOutlineFileUpload
+            onClick={() => {
+              inputRef.current.click();
+            }}
+            id="fileupload-icon"
+          />
         </label>
       </section>
       <section className="waveform-wrapper">

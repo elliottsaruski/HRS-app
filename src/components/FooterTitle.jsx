@@ -10,9 +10,15 @@ function FooterTitle() {
       <div className="tooltip-wrapper">
         <MdInfoOutline tabIndex={0} className="info-icon" />
         <ul className="tooltip">
-          <li>1 - Upload track</li>
-          <li>2 - Change speed</li>
-          <li>3 - Repeat</li>
+          <li>
+            <strong>1 </strong>- Upload audio
+          </li>
+          <li>
+            <strong>2 </strong> - Change speed
+          </li>
+          <li>
+            <strong>3 </strong> - Repeat
+          </li>
         </ul>
       </div>
     </section>
