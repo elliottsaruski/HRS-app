@@ -78,7 +78,7 @@ input[type="file"] {
   z-index: -1;
 }
 
-input[type="file"] + label {
+input[type="file"] + #file-label {
   font-weight: 700;
   display: flex;
   padding: 0.25rem;
@@ -88,8 +88,8 @@ input[type="file"] + label {
   justify-content: center;
 }
 
-input[type="file"]:focus + label,
-input[type="file"] + label:hover {
+input[type="file"]:focus + #file-label,
+input[type="file"] + #file-label:hover {
   background-color: var(--clr-accent);
   color: var(--clr-darkest);
 }
@@ -197,6 +197,7 @@ input[type="file"] + label:hover {
 .knob-wrapper {
   flex: 1.5;
   position: relative;
+  overflow: hidden;
 }
 
 #dial-svg {

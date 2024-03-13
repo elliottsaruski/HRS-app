@@ -1,17 +1,28 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-function RadialDial({ setRateValue }) {
-  const knobRef = useRef();
-  const fullKnobRef = useRef();
+function RadialDial({
+  rateValue,
+  setRateValue,
+  resetRotateValue,
+  resetRotate,
+}) {
+  const knobRef = useRef(null);
+  const fullKnobRef = useRef(null);
 
   const maxRotateDeg = "90";
   const minRotateDeg = "-90";
 
   const [rotateValue, setRotateValue] = useState(0);
   const [isDown, setIsDown] = useState(false);
+  const [dialValue, setDialValue] = useState(rateValue);
 
-  const [dialValue, setDialValue] = useState(0);
+  useEffect(() => {
+    if (resetRotateValue) {
+      setRotateValue(0);
+      resetRotate();
+    }
+  }, [resetRotateValue, resetRotate]);
 
   function handleClick(e) {
     if (e.type === "pointerdown") {
@@ -42,6 +53,8 @@ function RadialDial({ setRateValue }) {
       setRateValue(dialValue);
     }
   }
+
+  //useEffect(() => {},[]);
 
   function handleMoveOut() {
     knobRef.current.style.cursor = "grab";
@@ -421,7 +434,7 @@ function RadialDial({ setRateValue }) {
           </linearGradient>
         </defs>
       </svg>
-      <input
+      {/* <input
         aria-hidden="true"
         type="range"
         name="range"
@@ -433,13 +446,16 @@ function RadialDial({ setRateValue }) {
         onChange={(e) => {
           setDialValue(e.target.value);
         }}
-      />
+      /> */}
     </>
   );
 }
 
 RadialDial.propTypes = {
+  rateValue: PropTypes.number,
   setRateValue: PropTypes.func,
+  resetRotateValue: PropTypes.bool,
+  resetRotate: PropTypes.func,
 };
 export default RadialDial;
 

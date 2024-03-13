@@ -7,34 +7,13 @@ import { FaPowerOff } from "react-icons/fa6";
 import RadialDial from "./RadialDial";
 
 function WaveSurferComponent() {
-  const waveSurferRef = useRef();
-  const inputRef = useRef();
+  const waveSurferRef = useRef(null);
+  const inputRef = useRef(null);
+
+  const [resetRotateValue, setResetRotateValue] = useState(false); // Add state to trigger reset
 
   const [rateValue, setRateValue] = useState(1);
   const [bypass, setBypass] = useState(false);
-  // const [soundFile, setSoundFile] = useState({});
-
-  const handleUpload = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // setRateValue(1);
-    const file = inputRef.current.files[0];
-
-    const reader = new FileReader();
-
-    // Read File as an ArrayBuffer
-
-    reader.onload = async function (evt) {
-      // Create a Blob providing as first argument a typed array with the file buffer
-      let blob = new window.Blob([new Uint8Array(evt.target.result)], {
-        type: "audio/mp3",
-      });
-
-      // Load the blob into Wavesurfer
-      await wavesurfer.loadBlob(blob);
-    };
-    reader.readAsArrayBuffer(file);
-  };
 
   const { wavesurfer, isPlaying } = useWavesurfer({
     container: waveSurferRef,
@@ -48,6 +27,37 @@ function WaveSurferComponent() {
     dragToSeek: true,
     audioRate: 1,
   });
+
+  const handleUpload = (e) => {
+    e.preventDefault();
+    // e.stopPropagation();
+
+    const file = inputRef.current.files[0];
+    const reader = new FileReader();
+
+    if (file) {
+      // Read File as an ArrayBuffer
+      reader.readAsArrayBuffer(file);
+    }
+
+    reader.onload = (evt) => {
+      // Create a Blob providing as first argument a typed array with the file buffer
+      let blob = new window.Blob([new Uint8Array(evt.target.result)], {
+        type: "audio/wav",
+      });
+
+      // Load the blob into Wavesurfer
+      wavesurfer.loadBlob(blob);
+      setBypass(false);
+      setRateValue(1);
+      setResetRotateValue(true); // Trigger reset of dial rotation
+    };
+
+    reader.onerror = (evt) => {
+      console.log("error loading file" + evt.target.result);
+      reader.abort();
+    };
+  };
 
   const onPlayPause = () => {
     wavesurfer.playPause();
@@ -72,26 +82,29 @@ function WaveSurferComponent() {
     }
   };
 
+  const resetRotate = () => {
+    setResetRotateValue(false);
+  };
+
   return (
     <>
-      <section className="header-wrapper">
+      <section
+        className="header-wrapper"
+        onClick={() => {
+          inputRef.current.click();
+        }}>
         <input
           aria-label="Upload Audio"
           type="file"
           id="file"
           name="file"
-          accept=".mp3,.wav"
+          accept=".wav"
           ref={inputRef}
-          onChange={(e) => handleUpload(e)}
+          onChange={handleUpload}
         />
-        <label id="file-label" htmlFor="file">
-          <MdOutlineFileUpload
-            onClick={() => {
-              inputRef.current.click();
-            }}
-            id="fileupload-icon"
-          />
-        </label>
+        <div id="file-label" htmlFor="file">
+          <MdOutlineFileUpload id="fileupload-icon" />
+        </div>
       </section>
       <section className="waveform-wrapper">
         <div
@@ -124,7 +137,12 @@ function WaveSurferComponent() {
         className="knob-wrapper"
         onPointerDown={handlePlaybackRate}
         onPointerUp={handlePlaybackRate}>
-        <RadialDial setRateValue={setRateValue} />
+        <RadialDial
+          rateValue={rateValue}
+          setRateValue={setRateValue}
+          resetRotateValue={resetRotateValue}
+          resetRotate={resetRotate}
+        />
       </section>
     </>
   );
