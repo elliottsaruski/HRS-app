@@ -54,7 +54,6 @@ function RadialDial({
     }
   }
 
-  //useEffect(() => {},[]);
 
   function handleMoveOut() {
     knobRef.current.style.cursor = "grab";
@@ -434,19 +433,6 @@ function RadialDial({
           </linearGradient>
         </defs>
       </svg>
-      {/* <input
-        aria-hidden="true"
-        type="range"
-        name="range"
-        id="hidden-range"
-        min={0.5}
-        max={1.5}
-        step={0.5}
-        value={dialValue}
-        onChange={(e) => {
-          setDialValue(e.target.value);
-        }}
-      /> */}
     </>
   );
 }
@@ -459,7 +445,3 @@ RadialDial.propTypes = {
 };
 export default RadialDial;
 
-//TODO: have radialdial component pass value to wavesurfer for audiorate (preservePitch=true)
-//TODO: create bypass functionality that sets audiorate back to default momentarily
-//TODO: prettify the UI
-//Extra work: add settings button for menu to pop up and allow user customization of the waveform colors, dark mode/light mode, + potential extra functionalities
