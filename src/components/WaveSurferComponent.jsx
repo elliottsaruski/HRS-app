@@ -4,13 +4,11 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { FaPlay } from "react-icons/fa";
 import { FaPowerOff } from "react-icons/fa6";
 
-import RadialDial from "./RadialDial";
+import SpeedFader from "./SpeedFader";
 
 function WaveSurferComponent() {
   const waveSurferRef = useRef(null);
   const inputRef = useRef(null);
-
-  const [resetRotateValue, setResetRotateValue] = useState(false); // Add state to trigger reset
 
   const [rateValue, setRateValue] = useState(1);
   const [bypass, setBypass] = useState(false);
@@ -27,10 +25,9 @@ function WaveSurferComponent() {
     dragToSeek: true,
     audioRate: 1,
   });
-
+  // ----------------------------------------FILE UPLOAD ------------------------------------
   const handleUpload = (e) => {
     e.preventDefault();
-    // e.stopPropagation();
 
     const file = inputRef.current.files[0];
     const reader = new FileReader();
@@ -50,7 +47,7 @@ function WaveSurferComponent() {
       wavesurfer.loadBlob(blob);
       setBypass(false);
       setRateValue(1);
-      setResetRotateValue(true); // Trigger reset of dial rotation
+      // setResetRotateValue(true);
     };
 
     reader.onerror = (evt) => {
@@ -59,17 +56,11 @@ function WaveSurferComponent() {
     };
   };
 
+  //--------------------------------------PLAY PAUSE BUTTON LOGIC------------------------------------------
   const onPlayPause = () => {
     wavesurfer.playPause();
   };
-
-  const handlePlaybackRate = () => {
-    if (bypass === false) {
-      setRateValue(rateValue);
-      wavesurfer.setPlaybackRate(rateValue, false);
-    }
-  };
-
+  //--------------------------------------BYPASS BUTTON LOGIC ------------------------------------------
   const handleBypass = () => {
     const pbrate = wavesurfer.getPlaybackRate();
     if (pbrate !== 1 && isPlaying) {
@@ -82,12 +73,17 @@ function WaveSurferComponent() {
     }
   };
 
-  const resetRotate = () => {
-    setResetRotateValue(false);
+  //--------------------------------------PLAYBACK RATE LOGIC ------------------------------------------
+  const handlePlaybackRate = (e) => {
+    if (bypass === false) {
+      setRateValue(e.target.value);
+      wavesurfer.setPlaybackRate(rateValue, false);
+    }
   };
 
   return (
     <>
+      {/* --------------FILE UPLOAD------------------ */}
       <section
         className="header-wrapper"
         onClick={() => {
@@ -106,6 +102,7 @@ function WaveSurferComponent() {
           <MdOutlineFileUpload id="fileupload-icon" />
         </div>
       </section>
+      {/* --------------WAVEFORM------------------ */}
       <section className="waveform-wrapper">
         <div
           tabIndex={0}
@@ -113,37 +110,31 @@ function WaveSurferComponent() {
           aria-label="waveform"
           ref={waveSurferRef}></div>
       </section>
-      <hr></hr>
-      <button
-        tabIndex={0}
-        id="play-pause-btn"
-        aria-label="play-pause-button"
-        className={isPlaying ? "playing-on" : "playing-off"}
-        onClick={onPlayPause}>
-        <FaPlay />
-        <span className="tooltip">{isPlaying ? "pause" : "play"}</span>
-      </button>
-      <button
-        tabIndex={0}
-        id="bypass-btn"
-        aria-label="bypass-button"
-        className={bypass ? "bypass-on" : "bypass-off"}
-        onClick={handleBypass}>
-        <FaPowerOff />
-        <span className="tooltip">bypass</span>
-      </button>
-      <section
-        tabIndex={0}
-        className="knob-wrapper"
-        onPointerDown={handlePlaybackRate}
-        onPointerUp={handlePlaybackRate}>
-        <RadialDial
+      {/* --------------CONTROLS UI------------------ */}
+      <div className="controls-UI">
+        <button
+          tabIndex={0}
+          id="play-pause-btn"
+          aria-label="play-pause-button"
+          className={isPlaying ? "playing-on" : "playing-off"}
+          onClick={onPlayPause}>
+          <FaPlay />
+          <span className="tooltip">{isPlaying ? "pause" : "play"}</span>
+        </button>
+        <button
+          tabIndex={0}
+          id="bypass-btn"
+          aria-label="bypass-button"
+          className={bypass ? "bypass-on" : "bypass-off"}
+          onClick={handleBypass}>
+          <FaPowerOff />
+          <span className="tooltip">bypass</span>
+        </button>
+        <SpeedFader
           rateValue={rateValue}
-          setRateValue={setRateValue}
-          resetRotateValue={resetRotateValue}
-          resetRotate={resetRotate}
+          handlePlaybackRate={handlePlaybackRate}
         />
-      </section>
+      </div>
     </>
   );
 }
