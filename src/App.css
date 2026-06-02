@@ -27,6 +27,7 @@ main {
   font-family: "Kode Mono", monospace;
   font-optical-sizing: auto;
   font-style: normal;
+  position: relative;
 }
 
 .app-wrapper {
@@ -118,8 +119,12 @@ input[type="file"] + #file-label:hover {
   background: var(--clr-light);
   padding-block: 1rem;
   backdrop-filter: blur(20px);
-  -webkit-box-shadow: 1px 1px 0px #cfcfcf, -1px -1px 0px #d3d3d3;
-  box-shadow: 1px 1px 0px #cfcfcf, -1px -1px 0px #d3d3d3;
+  -webkit-box-shadow:
+    1px 1px 0px #cfcfcf,
+    -1px -1px 0px #d3d3d3;
+  box-shadow:
+    1px 1px 0px #cfcfcf,
+    -1px -1px 0px #d3d3d3;
 }
 
 .waveform {
@@ -128,7 +133,9 @@ input[type="file"] + #file-label:hover {
   overflow: hidden;
   border-radius: 39px;
   background-color: var(--clr-dark);
-  box-shadow: 8px 8px 16px #cccccc, -8px -8px 16px #f4f4f4;
+  box-shadow:
+    8px 8px 16px #cccccc,
+    -8px -8px 16px #f4f4f4;
 }
 
 .controls-UI {
@@ -161,7 +168,9 @@ input[type="file"] + #file-label:hover {
   outline: 2px solid hsla(196, 99%, 49%, 0.199);
   outline-offset: 0.1rem;
   background: linear-gradient(145deg, #cacaca, #f0f0f0);
-  box-shadow: inset 5px 5px 10px #d0d0d0, inset -5px -5px 10px #f0f0f0;
+  box-shadow:
+    inset 5px 5px 10px #d0d0d0,
+    inset -5px -5px 10px #f0f0f0;
 }
 
 .playing-off {
@@ -169,7 +178,9 @@ input[type="file"] + #file-label:hover {
   color: var(--clr-darkest);
   outline: 2px solid hsla(0, 0%, 49%, 0.082);
   outline-offset: 0.1rem;
-  box-shadow: 6px 6px 12px #c1c1c1, -6px -6px 12px #ffffff;
+  box-shadow:
+    6px 6px 12px #c1c1c1,
+    -6px -6px 12px #ffffff;
 }
 
 #bypass-btn {
@@ -191,14 +202,18 @@ input[type="file"] + #file-label:hover {
   outline: 1px solid rgba(255, 0, 0, 0.349);
   outline-offset: 0.1rem;
   background: linear-gradient(145deg, #cacaca, #f0f0f0);
-  box-shadow: inset 5px 5px 10px #d0d0d0, inset -5px -5px 10px #f0f0f0;
+  box-shadow:
+    inset 5px 5px 10px #d0d0d0,
+    inset -5px -5px 10px #f0f0f0;
 }
 .bypass-off {
   background-color: var(--clr-light);
   color: rgb(41, 41, 41);
   outline: 1px solid hsla(0, 0%, 57%, 0.199);
   outline-offset: 0.1rem;
-  box-shadow: 6px 6px 12px #c1c1c1, -6px -6px 12px #ffffff;
+  box-shadow:
+    6px 6px 12px #c1c1c1,
+    -6px -6px 12px #ffffff;
 }
 
 #fader-input {
@@ -225,7 +240,9 @@ input[type="range"]::-webkit-slider-runnable-track {
   /* background: var(--clr-dark); */
   border-radius: 5px;
   height: 5rem;
-  box-shadow: inset 10px 10px 18px #bcbcbc, inset -10px -10px 18px #ffffff;
+  box-shadow:
+    inset 10px 10px 18px #bcbcbc,
+    inset -10px -10px 18px #ffffff;
 }
 
 /******** Firefox ********/
@@ -234,23 +251,31 @@ input[type="range"]::-moz-range-track {
   border-radius: 5px;
   border-radius: 5px;
   height: 5rem;
-  box-shadow: inset 10px 10px 18px #bcbcbc, inset -10px -10px 18px #ffffff;
+  box-shadow:
+    inset 10px 10px 18px #bcbcbc,
+    inset -10px -10px 18px #ffffff;
+}
+
+input[type="range"]::-moz-range-thumb {
+  border-radius: 5px;
+  background: linear-gradient(145deg, #f0f0f0, #cacaca);
+  box-shadow: 9px 9px 18px #bebebe;
+  border: 1px solid var(--clr-light);
+  width: 2.5rem;
+  height: 100%;
 }
 
 /***** Thumb Styles *****/
 /***** Chrome, Safari, Opera, and Edge Chromium *****/
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
+  -webkit-appearance: none;
   appearance: none;
-  /* background-color: var(--clr-darkest); */
-  border-radius: 8px;
+  border-radius: 5px;
   background: linear-gradient(145deg, #f0f0f0, #cacaca);
   box-shadow: 9px 9px 18px #bebebe;
   border: 1px solid var(--clr-light);
+  width: 2.5rem;
   height: 100%;
-  place-self: center;
-  border-radius: 5px;
-  width: 2rem;
 }
 
 .title-wrapper {
@@ -324,3 +349,11 @@ input[type="range"]::-webkit-slider-thumb {
     min-width: calc(100vw - 1rem);
   }
 } */
+
+.soundcloud-logo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 55px;
+  padding: 0.25rem;
+}
