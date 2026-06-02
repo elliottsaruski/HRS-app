@@ -76,8 +76,9 @@ function WaveSurferComponent() {
   //--------------------------------------PLAYBACK RATE LOGIC ------------------------------------------
   const handlePlaybackRate = (e) => {
     if (bypass === false) {
-      setRateValue(e.target.value);
-      wavesurfer.setPlaybackRate(rateValue, false);
+      const newRate = parseFloat(e.target.value);
+      setRateValue(newRate);
+      wavesurfer.setPlaybackRate(newRate, false);
     }
   };
 
